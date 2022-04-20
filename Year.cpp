@@ -18,11 +18,11 @@ bool operator!=(const Year& lhs, const Year& rhs) {
     return lhs.year != rhs.year;
 };
 
-void Year::timer(void(*sort)()) {
+float Year::timer(void(*sort)()) {
     clock_t start = clock();
     sort();
     clock_t end = clock();
-    sort_time = (end-start)/CLOCKS_PER_SEC; //Update time taken to sort
+    return (end-start)/CLOCKS_PER_SEC; //Update time taken to sort
 };
 
 //TODO: @mazohu implement quicksort on frequency vector 
