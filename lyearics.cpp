@@ -39,7 +39,7 @@ vector<Year> sort(vector<Year> years, double& elapsed, Sorts sort) {
 
 void getFreqRange(vector<Year>& years, int from, int to, vector<pair<int,string>>& intersection) {
     auto frit = find_if(years.begin(), years.end(), [&](Year& year) {return year.getYear() == from;});
-    auto toit = find_if(years.begin(), years.end(), [&](Year& year) {return year.getYear() == from;});
+    auto toit = find_if(years.begin(), years.end(), [&](Year& year) {return year.getYear() == to;});
     if(!(frit == years.end() && toit == years.end())) {
         while(frit != toit) {
             frit->getIntersection(*(frit+1), intersection);
@@ -76,21 +76,41 @@ main() {
     } else {
         cout << "Could not open file" << endl;
     }
-    
-    //"Welcome to Lyearics"
-    //"Press '.' to exit"
-    //"You can view the top 20 most frequently used words in songs between 1965 and 2015"
-    //"Enter your range of years with the format "FROM-TO""
-        //Regex for checking if input meets format is [\d]{4}-[\d]{4}
-        //Include a check for if from > to or if from == to (in which case, just output the 20 most common words from that decade)
-    //Get from and to as ints using cin/getline
-    //"How would you like to sort the frequencies?"
-    //"1. Heapsort   2. Quicksort"
-    //Get sort as single digit
-        //Check if input meets format with regex [\d]{1} and if input is either 1 or 2
-    //Generate the intersecting set
-    //"Sorting with SORT took ELAPSED_TIME ms"
-    //"The 20 most frequently used words in songs between FROM and TO are"
-    //  1. WORD FREQUENCY
+    cout << "Welcome to lyearics" << endl;
+    while(true) {
+        int from = 0, to = 0, sort_i = 0;
+        char option;
+        cout <<"You can view the top 20 most frequently used words in songs from a range of years between 1965 and 2015" << endl;
+        cout << "Press any character to continue or '.' to exit" << endl;
+        cin >> option;
+        if(option == '.')
+            break;
+        cout << "Enter your range of years with the format \"FROM TO\"" << endl;
+        double elapsed = 0.0;
+        cin >> from;
+        cin >> to;
+        cout << "How would you like to sort the frequencies?" << endl;
+        cout << "1: HEAPSORT    2: QUICKSORT" << endl;
+        cin >> sort_i;
+        string sortalgo = "";
+        vector<Year> sorted;
+        vector<pair<int,string>> intersection;
+        if(sort_i == 1) {
+            sorted = sort(years, elapsed, HEAPSORT);
+            sortalgo = "HEAPSORT";
+        }
+        if (sort_i == 2) {
+            sorted = sort(years, elapsed, QUICKSORT);
+            sortalgo = "QUICKSORT";
+        }
+        cout << "Sorting with " << sortalgo << " finished in " << elapsed << " ms" << endl;
+        getFreqRange(sorted, from, to, intersection);
+        cout << "The 20 most frequently used words in songs between " << from << " and " << to << " are" << endl;
+        for(int i = 0; i < 20; i++) {
+            cout << i+1 << ". " << intersection[i].second << "  " << intersection[i].first << endl;
+        }
+        sorted.clear();
+        intersection.clear();
+    }
     return 0;
 }
