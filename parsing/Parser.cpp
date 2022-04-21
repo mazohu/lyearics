@@ -10,7 +10,7 @@ Parser::Parser() {
     filestream.open("stop_words.txt", std::ios::in);
     if(filestream.is_open()) {    
         string word;
-        while(getline(filestream, word))
+        while(getline(filestream, word,','))
             stopWords.insert(word);
     } else {
         cout << "Could not open file" << endl;
