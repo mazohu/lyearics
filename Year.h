@@ -34,7 +34,7 @@ class Year {
         friend bool operator!=(const Year& lhs, const Year& rhs);
         friend ostream& operator<<(ostream& os, const Year& year);
         //Accessors
-        int getYear();
-        //Gets the intersection of the top 20 frequencies of the lhs and rhs Years (using whichever has a shorter list of frequencies) and update a vector storing the intersection
+        int getYear() const;
+        //Gets the intersection the frequencies of the lhs and rhs Years (using whichever has a shorter list of frequencies) and updates a vector storing the intersection
         void getIntersection(Year& rhs, vector<pair<int,string>>& intersection);
 };

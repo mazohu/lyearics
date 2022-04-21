@@ -95,7 +95,7 @@ void Year::heapsort() {
         extractMin(size);
 }
 
-int Year::getYear() {return year;}
+int Year::getYear() const {return year;}
 
 //TODO: Write function for getting the intersection of frequencies between two years
 void Year::getIntersection(Year& rhs, vector<pair<int,string>>& intersection) {
@@ -103,7 +103,9 @@ void Year::getIntersection(Year& rhs, vector<pair<int,string>>& intersection) {
     if(smaller.size() > larger.size()) {
         smaller.swap(larger);
     }
-    for(auto pair : smaller) {
-        
+    for(auto spair : smaller) {
+        auto lit = find_if(larger.begin(), larger.end(), [&](pair<int,string> lpair) {return lpair.second == spair.second;});
+        if(lit != larger.end());
+            intersection.push_back(make_pair(spair.first + lit->first, spair.second));
     }
 }

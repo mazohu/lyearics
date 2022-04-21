@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <chrono>
+#include <algorithm>
 
 using namespace std;
 
@@ -36,6 +37,19 @@ vector<Year> sort(vector<Year> years, double& elapsed, Sorts sort) {
     return sorted;
 }
 
+void getFreqRange(vector<Year>& years, int from, int to, vector<pair<int,string>>& intersection) {
+    auto frit = find_if(years.begin(), years.end(), [&](Year& year) {return year.getYear() == from;});
+    auto toit = find_if(years.begin(), years.end(), [&](Year& year) {return year.getYear() == from;});
+    if(!(frit == years.end() && toit == years.end())) {
+        while(frit != toit) {
+            frit->getIntersection(*(frit+1), intersection);
+            frit++;
+        }
+    }
+    //Sort the frequency range
+    std::sort(intersection.begin(), intersection.end(), greater<pair<int,string>>());
+}
+
 main() {
     vector<Year> years; //Vector containing Year objects
     ifstream file("cleaned_data.txt");
@@ -62,7 +76,7 @@ main() {
     } else {
         cout << "Could not open file" << endl;
     }
-    //TODO: @fatimaelfasi implement CLI
+    
     //"Welcome to Lyearics"
     //"Press '.' to exit"
     //"You can view the top 20 most frequently used words in songs between 1965 and 2015"
